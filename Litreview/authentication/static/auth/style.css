@@ -1,0 +1,60 @@
+
+
+.titre{
+    width: 10vw;
+    height: 10vh;
+    display: flex;
+
+}
+
+.content_base{
+
+    border: solid red;
+    height: 80vh;
+    width: 80vw;
+    margin: auto;
+    margin-top: 100px;
+
+}
+
+.form_login, h2{
+   margin-left: 20px;
+
+}
+
+#titre_sign{
+display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 160px;
+
+}
+#a_b{
+    margin-left: 100px;
+    margin-right: 20px;
+    border: 1px solid;
+    border-radius: 10px ;
+
+    padding: 10px 30px 10px 30px;
+
+}
+#titre_ins{
+    margin-left: 530px;
+}
+
+.content_form{
+    display: flex;
+    margin-left: 430px;
+    justify-content: space-between;
+}
+
+.gtre{
+    width:500px;
+    text-align: center;
+}
+
+#inscrire{
+    margin-left: 400px;
+
+}

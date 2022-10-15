@@ -1,0 +1,14 @@
+{% extends 'auth/base.html' %}
+{% block content %}
+{% load static %}
+
+<h1 id = 'titre_ins'> Inscrivez-vous </h1>
+<div class="content_form">
+    <form action="" method="post" novalidate>
+        {{form.as_p}}
+        {% csrf_token %}
+        <button id='inscrire' type="submit">s'inscrire</button>
+    </form>
+</div>
+<a id="content_back" href="{% url 'login' %}">Retourner</a>
+{% endblock %}
