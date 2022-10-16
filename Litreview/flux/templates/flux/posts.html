@@ -1,0 +1,27 @@
+{% extends 'flux/base.html'  %}
+{% load static %}
+{% block content %}
+
+<h1>Yours Posts</h1>
+{% for post in posts %}
+<p>date : {{post.time_created}}</p>
+<div>{{ post.title}}</div></br>
+
+
+<div>{{ post.description}}</div></br>
+
+<img src="{{ post.image.url }}" alt="photo ">
+{% endfor %}
+
+
+
+{% for i in form_critique %}
+
+<div>{{ i.title}}</div></br>
+
+
+<div>{{ post.rating}}</div></br>
+<div>{{ post.body}}</div></br>
+{% endfor %}
+
+{% endblock %}

@@ -21,11 +21,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('login/', authentication.views.login_user, name='login'),
-                  path('signup/', authentication.views.signup_user, name='signup'),
-                  path('logout/', authentication.views.logout_user, name='logout'),
-                  path('flux/', flux_views.flux, name='flux'),
-                  path('create_ticket/', flux_views.create_ticket, name='create=ticket'),
+    path('admin/', admin.site.urls),
+    path('login/', authentication.views.login_user, name='login'),
+    path('signup/', authentication.views.signup_user, name='signup'),
+    path('logout/', authentication.views.logout_user, name='logout'),
+    path('flux/', flux_views.flux, name='flux'),
+    path('create_ticket/', flux_views.create_ticket, name='create=ticket'),
+    path('posts/', flux_views.posts, name = 'posts'),
+    path('create/critique/', flux_views.create_critic_no_answer, name = 'critique_rating'),
 
-              ]
+]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

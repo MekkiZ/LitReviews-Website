@@ -4,13 +4,23 @@
 <div class="container">
     <div class="row justify-content-evenly p-5 ">
     <button class="col-2">
-      Demander une critique
+      <a href="{% url 'flux' %}">Demander une critique</a>
     </button>
     <button class="col-2">
-      Créer une critique
+      <a href="{% url 'critique_rating' %}">Créer une critique</a>
     </button>
   </div>
 </div>
+
+{% for post in posts %}
+<p>date : {{post.time_created}}</p>
+<div>{{ post.title}}</div></br>
+
+
+<div>{{ post.description}}</div></br>
+
+<img src="{{ post.image.url }}" alt="photo ">
+{% endfor %}
 
 
 {% endblock %}

@@ -13,10 +13,12 @@ class TicketForm(forms.ModelForm):
         }
 
 
-class ReviewForm(forms.Form):
+class ReviewForm(forms.ModelForm):
+    title = forms.CharField(label='titre')
+
     class Meta:
         model = models.Review
-        fields = ('title', 'rating', 'body')
+        fields = ('rating', 'body')
         labels = {
             'title': 'Title',
             'rating': 'Rating',
