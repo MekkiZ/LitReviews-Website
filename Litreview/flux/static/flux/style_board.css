@@ -1,0 +1,9 @@
+#id_rating{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.checked {
+  color: orange;
+}

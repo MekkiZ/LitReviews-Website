@@ -14,13 +14,22 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    title = forms.CharField(label='titre')
+    CHOICES = [('0', '- 0'),
+               ('1', '- 1'),
+               ('2', '- 2'),
+               ('3', '- 3'),
+               ('4', '- 4'),
+               ('5', '- 5'),
+               ]
+    rating = forms.ChoiceField(widget=forms.RadioSelect(attrs={
+        'class': 'controle',
+    }), choices=CHOICES,)
 
     class Meta:
         model = models.Review
-        fields = ('rating', 'body')
+        fields = ('headline', 'rating', 'body')
         labels = {
-            'title': 'Title',
+            'headline': 'Title',
             'rating': 'Rating',
             'body': 'Body',
 

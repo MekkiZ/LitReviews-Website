@@ -1,0 +1,17 @@
+{% extends 'flux/base.html'  %}
+{% load static %}
+{% block content %}
+
+
+<h1>Mise à jour du ticket</h1>
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <img src="{{ tickets.image.url }}" alt="photo">
+    {{form_review.as_p}}
+    <input type="submit" value="Envoyer">
+</form>
+
+
+{% endblock %}

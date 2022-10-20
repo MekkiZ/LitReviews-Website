@@ -26,10 +26,13 @@ urlpatterns = [
     path('signup/', authentication.views.signup_user, name='signup'),
     path('logout/', authentication.views.logout_user, name='logout'),
     path('flux/', flux_views.flux, name='flux'),
-    path('create_ticket/', flux_views.create_ticket, name='create=ticket'),
-    path('posts/', flux_views.posts, name = 'posts'),
-    path('create/critique/', flux_views.create_critic_no_answer, name = 'critique_rating'),
-
+    path('create_ticket/', flux_views.create_ticket, name='create-ticket'),
+    path('posts/', flux_views.posts, name='posts'),
+    path('create/critique/', flux_views.create_critic_no_answer, name='critique_rating'),
+    path('review_update/<int:p_id>/', flux_views.update_review, name='update_review'),
+    path('ticket_only/<int:p_id>/', flux_views.ticket_only, name='ticket_only'),
+    path('delete_posts/<int:p_id>/', flux_views.delete_posts, name='delete_posts'),
+    path('reviews/ticket-posts/<int:p_id>/', flux_views.create_review_for_post, name='reviews-ticket')
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,36 @@
+{% extends 'flux/base.html' %}
+{% block content %}
+    {% load static %}
+
+    <p> titre : {{ ticket.title }} </p>
+    <p> description : {{ ticket.description }} </p>
+
+    {% if ticket.image %}
+        <img src="{{ ticket.image.url }}" alt="photo ">
+
+    {% else %}
+        <p>juhfrjbnjsdgbnsdg</p>
+
+    {% endif %}
+
+
+    <p> Posté par : {{ ticket.user }} </p>
+    <p> le : {{ ticket.time_created }} </p>
+
+
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ review.as_p }}
+
+    <div>
+        {% csrf_token %}
+    </div>
+        <input type="submit" value="Envoyer">
+    </form>
+
+
+
+
+
+{% endblock %}
+

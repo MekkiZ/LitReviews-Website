@@ -1,0 +1,29 @@
+{% extends 'flux/base.html' %}
+{% load static %}
+{% block content %}
+
+    <h1>Supprimer le groupe</h1>
+
+    <p>Etes-vous sûr de vouloir supprimer le post ?</p>
+
+    <p> titre : {{ ticket.title }} </p>
+    <p> description : {{ ticket.description }} </p>
+
+    {% if ticket.image %}
+        <img src="{{ ticket.image.url }}" alt="photo ">
+
+    {% else %}
+        <p>juhfrjbnjsdgbnsdg</p>
+
+    {% endif %}
+
+
+    <p> Posté par : {{ ticket.user }} </p>
+    <p> le : {{ ticket.time_created }} </p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Supprimer">
+    </form>
+
+{% endblock %}

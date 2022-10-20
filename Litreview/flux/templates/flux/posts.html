@@ -1,27 +1,94 @@
-{% extends 'flux/base.html'  %}
+{% extends 'flux/base.html' %}
 {% load static %}
 {% block content %}
 
-<h1>Yours Posts</h1>
-{% for post in posts %}
-<p>date : {{post.time_created}}</p>
-<div>{{ post.title}}</div></br>
+    <h1>Yours Posts</h1>
+    <a href="{% url 'create-ticket' %}">[cree un post]</a>
+    <div>
+        {% for reviews in review %}
+            {% if user.request == user.request %}
+                <p>Vous avez publié une critique</p>
+            {% endif %}
+            <div>{{ reviews.headline }}</div>
+            {% if reviews.rating == 1 %}
+                <span class="fa fa-star checked"></span>
+            {% elif reviews.rating == 2 %}
+                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+            {% elif reviews.rating == 3 %}
+                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+            {% elif reviews.rating == 4 %}
+                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+            {% elif reviews.rating == 5 %}
+                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+            {% else %}
+                <p>il as eut un 0</p>
+            {% endif %}
+
+            <div>{{ reviews.body }}</div>
 
 
-<div>{{ post.description}}</div></br>
 
-<img src="{{ post.image.url }}" alt="photo ">
-{% endfor %}
+            <div style="border: solid;width: auto; height: auto; padding: 30px;margin: 30px">
+                <div> publié : {{ reviews.ticket.time_created }}</div>
+                <div>{{ reviews.user }} a publier</div>
+
+                {% if reviews.ticket.image %}
+
+                    <p>Titre : {{ reviews.ticket.title }}</p>
+                    <img src="{{ reviews.ticket.image.url }}" alt="photo ">
+
+                {% endif %}
+
+            </div>
+            <a href="{% url 'update_review' reviews.ticket.id %}">[modifier]</a>
+            <a href="{% url 'delete_posts' reviews.ticket.id %}">[Supprimer]</a>
+            <div style="border: solid 2px black"></div>
+        {% endfor %}
+
+        <div>
+            {% for post in posts %}
+                {% if user.request == user.request %}
+                    <p>Vous avez publié un ticket </p>
+                {% endif %}
+                {% if post.image.url is None %}
+                    <p>{{ post.user }}, Vous avez poster un ticket sans photo</p>
+                    <p>Titre : {{ post.title }}</p>
+
+                {% else %}
+                    <p>{{ post.title }}</p>
+                    <p>Titre : {{ post.description }}</p>
+                    <img src="{{ post.image.url }}" alt="photo ">
+                {% endif %}
+                </div>
+                <a href="{% url 'ticket_only' post.id %}">[modifier]</a>
+                <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
+                <div style="border: solid 2px black"></div>
+            {% endfor %}
 
 
+        <div>
+            {% for post in posts_empty %}
+                {% if user.request == user.request %}
+                    <p>Vous avez publié un ticket </p>
+                {% endif %}
+                {% if post.image.url is None %}
+                    <p>{{ post.user }}, Vous avez poster un ticket sans photo</p>
+                    <p>Titre : {{ post.title }}</p>
 
-{% for i in form_critique %}
+                {% else %}
+                    <p>{{ post.title }}</p>
+                    <p>Titre : {{ post.description }}</p>
+                {% endif %}
+                </div>
+                <a href="{% url 'ticket_only' post.id %}">[modifier]</a>
+                <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
+                <div style="border: solid 2px black"></div>
+            {% endfor %}
+    </div>
 
-<div>{{ i.title}}</div></br>
-
-
-<div>{{ post.rating}}</div></br>
-<div>{{ post.body}}</div></br>
-{% endfor %}
 
 {% endblock %}
