@@ -23,7 +23,7 @@ class ReviewForm(forms.ModelForm):
                ]
     rating = forms.ChoiceField(widget=forms.RadioSelect(attrs={
         'class': 'controle',
-    }), choices=CHOICES,)
+    }), choices=CHOICES, )
 
     class Meta:
         model = models.Review
@@ -35,3 +35,8 @@ class ReviewForm(forms.ModelForm):
 
         }
 
+
+class FollowForm(forms.ModelForm):
+    class Meta:
+        model = models.UserFollows
+        fields = ('followed_user')

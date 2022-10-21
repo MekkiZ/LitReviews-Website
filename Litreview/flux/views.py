@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from flux.form import TicketForm, ReviewForm
-from flux.models import Ticket, Review
+from flux.form import TicketForm, ReviewForm, FollowForm
+from flux.models import Ticket, Review, UserFollows
 from django.db.models import Q
 from django.contrib.auth.models import User
 
@@ -125,12 +125,11 @@ def create_review_for_post(request, p_id):
 @login_required()
 def search(request):
     if request.method == 'POST':
-        search = request.POST['search']
+        search = request.POST.get('search')
         follower = User.objects.filter(username__contains=search) \
             .exclude(username__contains=request.user)
 
         return render(request, 'flux/followers_search.html', {'search': search,
                                                               'follower': follower})
     else:
-
         return render(request, 'flux/followers_search.html')

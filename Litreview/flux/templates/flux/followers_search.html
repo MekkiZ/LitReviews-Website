@@ -1,28 +1,24 @@
-{% extends 'flux/base.html'  %}
+{% extends 'flux/base.html' %}
 {% load static %}
 {% block content %}
-
-<div class="container">
-<h1>Suivre d'autre utilisateur</h1>
-<form class="d-flex" method="post" action="{% url 'search' %}">
-    {%  csrf_token  %}
-        <input class="form-control me-2"
-    type="search" placeholder="rechercher" name="search">
-    <button class="btn btn-outline-sucess" type="submit">rechercher</button>
-
-</form>
-{% if search %}
-    {% for followers in follower %}
-        <form>
-
-        <input value="{{ followers }}" disabled>
-
-        <button type="submit"> s'abonner </button>
-
+    <div class="container">
+        <h1>Suivre d'autre utilisateur</h1>
+        <form class="d-flex" method="post" action="{% url 'search' %}">
+            {% csrf_token %}
+            <input class="form-control me-2"
+                   type="search" placeholder="rechercher" name="search">
+            <button class="btn btn-outline-sucess" type="submit">rechercher</button>
 
         </form>
+        {% if search %}
+            {% for followers in follower %}
+                <form method="post" action="{% url 'search' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="{{ followers }}">
 
-    {% endfor %}
-    {% endif  %}
-</div>
+
+                </form>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}
