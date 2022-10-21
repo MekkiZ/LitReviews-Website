@@ -32,7 +32,8 @@ urlpatterns = [
     path('review_update/<int:p_id>/', flux_views.update_review, name='update_review'),
     path('ticket_only/<int:p_id>/', flux_views.ticket_only, name='ticket_only'),
     path('delete_posts/<int:p_id>/', flux_views.delete_posts, name='delete_posts'),
-    path('reviews/ticket-posts/<int:p_id>/', flux_views.create_review_for_post, name='reviews-ticket')
+    path('reviews/ticket-posts/<int:p_id>/', flux_views.create_review_for_post, name='reviews-ticket'),
+    path('search/', flux_views.search, name='search'),
 ]
 
 if settings.DEBUG:

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-evenly p-5 ">
             <button class="col-2">
-                <a href="{% url 'flux' %}">Demander une critique</a>
+                <a href="{% url 'create-ticket' %}">Demander une critique</a>
             </button>
             <button class="col-2">
                 <a href="{% url 'critique_rating' %}">Créer une critique</a>
@@ -13,95 +13,60 @@
     </div>
 
 
-    {% for reviews in review %}
-        {% if user.request == reviews.user %}
-            <p>Vous avez publié une critique</p>
-        {% else %}
-            <p>{{ reviews.user }}</p>
-        {% endif %}
-        <div>{{ reviews.headline }}</div>
-        {% if reviews.rating == 1 %}
+    {% for post in posts %}
+        {% for review in post.reviews.all %}
+            {% if user.request == review.user %}
+                <p>Vous avez publié une critique</p>
+            {% else %}
+                <p>{{ review.user }}</p>
+            {% endif %}
+            <div>{{ review.headline }}</div>
+            <div>{{ review.time_created }}</div>
+            {% if review.rating == 1 %}
                 <span class="fa fa-star checked"></span>
-            {% elif reviews.rating == 2 %}
+            {% elif review.rating == 2 %}
                 <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-            {% elif reviews.rating == 3 %}
+            {% elif review.rating == 3 %}
                 <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
-            {% elif reviews.rating == 4 %}
+            {% elif review.rating == 4 %}
                 <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-            {% elif reviews.rating == 5 %}
+            {% elif review.rating == 5 %}
                 <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
             {% else %}
                 <p>il as eut un 0</p>
             {% endif %}
-        <div>{{ reviews.body }}</div>
-
+            <div>{{ review.body }}</div>
+        {% endfor %}
 
 
         <div style="border: solid;width: auto; height: auto; padding: 30px;margin: 30px">
-            <div> publié : {{ reviews.ticket.time_created }}</div>
-            <div>{{ reviews.ticket.user }} a publier</div>
+            <div> publié : {{ post.time_created }}</div>
+            <div>{{ post.user }} a publier</div>
 
-            {% if reviews.ticket.image %}
+            {% if post.image %}
 
-                <p>Titre : {{ reviews.ticket.title }}</p>
-                <img src="{{ reviews.ticket.image.url }}" alt="photo ">
+                <p>Titre : {{ post.title }}</p>
+                <img src="{{ post.image.url }}" alt="photo ">
 
             {% endif %}
 
         </div>
-        <a href="{% url 'update_review' reviews.ticket.id %}">[modifier]</a>
-        <a href="{% url 'delete_posts' reviews.ticket.id %}">[Supprimer]</a>
+        {% if post.user == request.user %}
+            <a href="{% url 'update_review' post.id %}">[modifier]</a>
+            <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
+        {% else %}
+
+        {% endif %}
         <div style="border: solid 2px black"></div>
     {% endfor %}
 
     <div>
-        {% for post in posts %}
-            {% if user.request == post.user %}
-                <p>Vous avez publié un ticket </p>
-            {% else %}
-                <p>{{ post.user }}</p>
-            {% endif %}
-            {% if post.image.url is None %}
-                <p>{{ post.user }}, Vous avez poster un ticket sans photo</p>
-                <p>Titre : {{ post.title }}</p>
-
-            {% else %}
-                <p>{{ post.title }}</p>
-                <p>Titre : {{ post.description }}</p>
-                <img src="{{ post.image.url }}" alt="photo ">
-            {% endif %}
-            </div>
-            <a href="{% url 'ticket_only' post.id %}">[modifier]</a>
-            <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
-              <a href="{% url 'reviews-ticket' post.id %}">Créer une critique</a>
-            <div style="border: solid 2px black"></div>
-        {% endfor %}
 
 
-    <div>
-        {% for post in posts_empty %}
-            {% if user.request == post.user %}
-                <p>Vous avez publié un ticket </p>
-            {% endif %}
-            {% if post.image.url is None %}
-                <p>{{ post.user }}, Vous avez poster un ticket sans photo</p>
-                <p>Titre : {{ post.title }}</p>
-
-            {% else %}
-                <p>{{ post.title }}</p>
-                <p>Titre : {{ post.description }}</p>
-            {% endif %}
-            </div>
-            <a href="{% url 'ticket_only' post.id %}">[modifier]</a>
-            <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
-            <a href="{% url 'reviews-ticket' post.id %}">Créer une critique</a>
-            <div style="border: solid 2px black"></div>
-        {% endfor %}
-    </div>
 
 {% endblock %}
 

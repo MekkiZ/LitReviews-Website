@@ -3,15 +3,15 @@ from django.contrib.auth.decorators import login_required
 from flux.form import TicketForm, ReviewForm
 from flux.models import Ticket, Review
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 
 @login_required()
 def flux(request):
     if request.user.is_authenticated:
         posts = Ticket.objects.all().order_by('-time_created')
-        review = Review.objects.all().order_by('-time_created')
 
-        return render(request, 'flux/flux.html', context={'posts': posts, 'review': review})
+        return render(request, 'flux/flux.html', context={'posts': posts})
 
 
 @login_required()
@@ -21,7 +21,7 @@ def create_ticket(request):
         form = TicketForm(request.POST, request.FILES)
         if form.is_valid():
             photo = form.save(commit=False)
-            photo.uploader = request.user
+            photo.user = request.user
             photo.save()
             form.save()
             return redirect('posts')
@@ -32,15 +32,8 @@ def create_ticket(request):
 def posts(request):
     if request.user.is_authenticated:
         posts = Ticket.objects.filter(user=request.user)
-        review = Review.objects.filter(user=request.user)
-        posts_empty = Ticket.objects.filter(Q(image='') &
-                                            Q(user=request.user))
-        print(request.user)
-        print(posts)
         return render(request, 'flux/posts.html',
-                      {'posts': posts,
-                       'review': review,
-                       'posts_empty': posts_empty})
+                      {'posts': posts})
 
 
 @login_required()
@@ -52,7 +45,7 @@ def update_review(request, p_id):
         form_review = ReviewForm(request.POST, request.FILES, instance=review)
         if form.is_valid() and form_review.is_valid():
             photo = form.save(commit=False)
-            photo.uploader = request.user
+            photo.user = request.user
             photo.save()
             form.save()
             form_review.save()
@@ -127,3 +120,17 @@ def create_review_for_post(request, p_id):
     return render(request, 'flux/create_critique_for_post.html',
                   context={'ticket': ticket,
                            'review': review})
+
+
+@login_required()
+def search(request):
+    if request.method == 'POST':
+        search = request.POST['search']
+        follower = User.objects.filter(username__contains=search) \
+            .exclude(username__contains=request.user)
+
+        return render(request, 'flux/followers_search.html', {'search': search,
+                                                              'follower': follower})
+    else:
+
+        return render(request, 'flux/followers_search.html')
