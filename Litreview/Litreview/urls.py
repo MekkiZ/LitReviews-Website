@@ -36,6 +36,7 @@ urlpatterns = [
     path('search/', flux_views.search, name='search'),
 
 
+
 ]
 
 if settings.DEBUG:

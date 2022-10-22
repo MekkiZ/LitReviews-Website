@@ -124,12 +124,24 @@ def create_review_for_post(request, p_id):
 
 @login_required()
 def search(request):
+    form = FollowForm(instance=request.user)
     if request.method == 'POST':
-        search = request.POST.get('search')
-        follower = User.objects.filter(username__contains=search) \
-            .exclude(username__contains=request.user)
+        if request.POST.get('search'):
+            search = request.POST['search']
+            follower = User.objects.get(username__contains=search)
+            print(follower.id)
+            print('asdfgasdf')
+            return render(request, 'flux/followers_search.html', {'search': search, 'follower': follower})
+        if request.POST.get('followed_user'):
+            print('je suis ici followed user')
+            searched = request.POST.get('followed_user')
+            follower = User.objects.get(username__contains=searched)
+            follow = UserFollows.objects.add(followed_user_id=follower.id, user_id=request.user.id)
+            follow.save()
+            return render(request, 'flux/followers_search.html')
 
-        return render(request, 'flux/followers_search.html', {'search': search,
-                                                              'follower': follower})
     else:
-        return render(request, 'flux/followers_search.html')
+        print( 'je suis ici else')
+        form = FollowForm(instance=request.user)
+        return render(request, 'flux/followers_search.html', {'form': form})
+
