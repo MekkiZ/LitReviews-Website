@@ -48,7 +48,7 @@
 
             </div>
             {% if post.user == request.user %}
-                <a href="{% url 'ticket_only' post.id %}">[modifier]</a>
+                <a href="{% url 'ticket_only' post.id %}">[modifier le ticket]</a>
                 <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
             {% else %}
 

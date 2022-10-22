@@ -2,16 +2,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from flux.form import TicketForm, ReviewForm, FollowForm
 from flux.models import Ticket, Review, UserFollows
-from django.db.models import Q
+from django.db.models import Q, Value
 from django.contrib.auth.models import User
 
 
 @login_required()
 def flux(request):
-    if request.user.is_authenticated:
-        posts = Ticket.objects.all().order_by('-time_created')
+    follower = UserFollows.objects.filter(user_id=request.user)
 
-        return render(request, 'flux/flux.html', context={'posts': posts})
+    print(follower)
+
+    posts = Ticket.objects.filter(user=request.user)
+
+    for i in follower:
+        posts2 = Ticket.objects.filter(user=i.followed_user_id)
+        print(i)
+
+        return render(request, 'flux/flux.html', context={'posts': posts2})
 
 
 @login_required()
@@ -129,9 +136,6 @@ def follow_user(request):
         if request.POST.get('search'):
             search = request.POST['search']
             follower = User.objects.get(Q(username__contains=search) & ~Q(username=request.user))
-            print(follower.id)
-            print('asdfgasdf')
-            print('je suis ici followed user')
             follow = UserFollows(followed_user_id=follower.id, user_id=request.user.id)
             follow.save()
             return redirect('search')
