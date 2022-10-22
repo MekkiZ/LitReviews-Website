@@ -10,20 +10,19 @@
             <button class="btn btn-outline-sucess" type="submit">rechercher</button>
 
         </form>
-        {% if search %}
 
-                <form method="post" action="{% url 'search' %}" name="fo">
-                    {% csrf_token %}
-                    <label>
-                        <input type="text" value="{{ follower }}" name="followed_user" disabled>
-                    </label>
-
-                <button type="submit" >follow</button>
-
-
-                </form>
+        <p>following : </p>{% for follows in following %}
+        {{ follows.followed_user }}<button><a href="{% url 'delete-user' follows.id %}">[Supprimer]</a></button>
+<br>
+        {% endfor %}
+        <br><p>followers : </p>
+        {% for follower in followers %}
+        {{ follower.user }}<br>
+         {% if request.user %}
+        {% else %}
 
         {% endif %}
-    {{ form.as_p}}
+        {% endfor %}
+
     </div>
 {% endblock %}

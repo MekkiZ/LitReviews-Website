@@ -123,25 +123,27 @@ def create_review_for_post(request, p_id):
 
 
 @login_required()
-def search(request):
+def follow_user(request):
     form = FollowForm(instance=request.user)
     if request.method == 'POST':
         if request.POST.get('search'):
             search = request.POST['search']
-            follower = User.objects.get(username__contains=search)
+            follower = User.objects.get(Q(username__contains=search) & ~Q(username=request.user))
             print(follower.id)
             print('asdfgasdf')
-            return render(request, 'flux/followers_search.html', {'search': search, 'follower': follower})
-        if request.POST.get('followed_user'):
             print('je suis ici followed user')
-            searched = request.POST.get('followed_user')
-            follower = User.objects.get(username__contains=searched)
-            follow = UserFollows.objects.add(followed_user_id=follower.id, user_id=request.user.id)
+            follow = UserFollows(followed_user_id=follower.id, user_id=request.user.id)
             follow.save()
-            return render(request, 'flux/followers_search.html')
-
+            return redirect('search')
     else:
-        print( 'je suis ici else')
-        form = FollowForm(instance=request.user)
-        return render(request, 'flux/followers_search.html', {'form': form})
+        following = UserFollows.objects.filter(user=request.user)
+        followers = UserFollows.objects.filter(followed_user=request.user)
 
+        return render(request, 'flux/followers_search.html', {'following': following, 'followers': followers})
+
+
+@login_required
+def delete_user_follow(request, follow_id):
+    user_follows = get_object_or_404(UserFollows, pk=follow_id)
+    user_follows.delete()
+    return redirect('search')
