@@ -8,17 +8,18 @@ from django.contrib.auth.models import User
 
 @login_required()
 def flux(request):
-    follower = UserFollows.objects.filter(user_id=request.user)
+    follower = UserFollows.objects.filter(user=request.user)
 
-    print(follower)
+    print(f'je suis le premier print : {follower}')
 
     posts = Ticket.objects.filter(user=request.user)
-
+    print(posts)
     for i in follower:
-        posts2 = Ticket.objects.filter(user=i.followed_user_id)
-        print(i)
-
-        return render(request, 'flux/flux.html', context={'posts': posts2})
+        id_user_flux = i.followed_user_id
+        posts = Ticket.objects.filter(Q(user_id=id_user_flux) | Q(user_id=request.user.id))
+        print(f'je suis le deuxieme print : {id_user_flux}')
+        print(f'je suis le troisieme print : {posts}')
+    return render(request, 'flux/flux.html', context={'posts': posts})
 
 
 @login_required()

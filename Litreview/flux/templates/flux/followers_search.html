@@ -12,16 +12,18 @@
         </form>
 
         <p>following : </p>{% for follows in following %}
-        {{ follows.followed_user }}<button><a href="{% url 'delete-user' follows.id %}">[Supprimer]</a></button>
-<br>
-        {% endfor %}
-        <br><p>followers : </p>
+        {{ follows.followed_user }}
+        <button><a href="{% url 'delete-user' follows.id %}">[Supprimer]</a></button>
+        <br>
+    {% endfor %}
+        <br>
+        <p>followers : </p>
         {% for follower in followers %}
-        {{ follower.user }}<br>
-         {% if request.user %}
-        {% else %}
+            {{ follower.user }}<br>
+            {% if request.user %}
+            {% else %}
 
-        {% endif %}
+            {% endif %}
         {% endfor %}
 
     </div>
