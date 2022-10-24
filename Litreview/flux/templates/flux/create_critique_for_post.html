@@ -1,7 +1,13 @@
 {% extends 'flux/base.html' %}
 {% block content %}
     {% load static %}
+<div class="container-md border border-primary" >
+{% if request.user %}
+    <p> Vous êtes en train de poster en réponse à</p>
+{% else %}
 
+{% endif %}
+<div class="container-md border border-primary" style="border: solid;width: auto; height: auto; padding: 30px;margin:30px 300px 30px 300px">
     <p> titre : {{ ticket.title }} </p>
     <p> description : {{ ticket.description }} </p>
 
@@ -16,7 +22,7 @@
 
     <p> Posté par : {{ ticket.user }} </p>
     <p> le : {{ ticket.time_created }} </p>
-
+ </div>
 
 
     <form action="" method="post" enctype="multipart/form-data">
@@ -25,9 +31,9 @@
     <div>
         {% csrf_token %}
     </div>
-        <input type="submit" value="Envoyer">
+        <button class="btn btn-primary"  type="submit"> Envoyer</button>
     </form>
-
+ </div>
 
 
 

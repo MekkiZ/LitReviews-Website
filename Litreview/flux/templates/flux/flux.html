@@ -3,69 +3,92 @@
     {% load static %}
     <div class="container">
         <div class="row justify-content-evenly p-5 ">
-            <button class="col-2">
-                <a href="{% url 'create-ticket' %}">Demander une critique</a>
-            </button>
-            <button class="col-2">
-                <a href="{% url 'critique_rating' %}">Créer une critique</a>
-            </button>
+            <div class="col-2">
+                <a class="btn btn-outline-primary" href="{% url 'create-ticket' %}">Demander une critique</a>
+            </div>
+            <div class="col-2">
+                <a class="btn btn-outline-primary" href="{% url 'critique_rating' %}">Créer une critique</a>
+            </div>
         </div>
     </div>
 
 
     {% for post in posts %}
-        {{ post }}
-        {% for review in post.reviews.all %}
-            {% if user.request == review.user %}
-                <p>Vous avez publié une critique</p>
-            {% else %}
-                <p>{{ review.user }}</p>
-            {% endif %}
-            <div>{{ review.headline }}</div>
-            <div>{{ review.time_created }}</div>
-            {% if review.rating == 1 %}
-                <span class="fa fa-star checked"></span>
-            {% elif review.rating == 2 %}
-                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-            {% elif review.rating == 3 %}
-                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            {% elif review.rating == 4 %}
-                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-            {% elif review.rating == 5 %}
-                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            {% else %}
-                <p>il as eut un 0</p>
-            {% endif %}
-            <div>{{ review.body }}</div>
-        {% endfor %}
+        {% if post.content_type == 'REVIEW' %}
+            <div style="border: solid;width: auto; height: auto; padding: 30px;margin:0 300px 30px 300px">
+                {% if user.request == post.user %}
+                    <p>Vous avez publié une critique</p>
+                {% else %}
+                    <p>{{ post.user }}</p>
+                {% endif %}
+                <div>{{ post.headline }}</div>
+                <div>{{ post.time_created }}</div>
+                {% if post.rating == 1 %}
+                    <span class="fa fa-star checked"></span>
+                {% elif post.rating == 2 %}
+                    <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                {% elif post.rating == 3 %}
+                    <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                {% elif post.rating == 4 %}
+                    <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                {% elif post.rating == 5 %}
+                    <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                {% else %}
+                    <p>il as eut un 0</p>
+                {% endif %}
+                <div>{{ post.body }}</div>
+                {% if post.ticket %}
+                    <div style="border: solid;width: auto; height: auto; padding: 30px;margin: 30px">
+                        <div> publié : {{ post.ticket.time_created }}</div>
+                        <div>{{ post.ticket.user }} a publier</div>
+
+                        {% if post.ticket.image %}
+
+                            <p>Titre : {{ post.ticket.title }}</p>
+                            <img src="{{ post.ticket.image.url }}" alt="photo ">
+
+                        {% endif %}
+
+                    </div>
+                    <div class="ms-auto">
+
+                        {% if post.user == request.user %}
+
+                            <a class="btn btn-primary " href="{% url 'update_review' post.ticket.id %}">Modifier</a>
+                            <a class="btn btn-danger" href="{% url 'delete_posts' post.ticket.id %}">Supprimer</a>
+                        {% else %}
+                        {% endif %}
+                    </div>
+
+                {% endif %}
+            </div>
 
 
-        <div style="border: solid;width: auto; height: auto; padding: 30px;margin: 30px">
-            <div> publié : {{ post.time_created }}</div>
-            <div>{{ post.user }} a publier</div>
+        {% elif post.content_type == 'TICKET' %}
+            <div style="border: solid;width: auto; height: auto; padding: 70px;margin:0 300px 30px 300px">
+                <div> publié : {{ post.time_created }}</div>
+                <div>{{ post.user }} a publier</div>
 
-            {% if post.image %}
+                {% if post.image %}
+                    <p>Titre : {{ post.title }}</p>
+                    <img src="{{ post.image.url }}" alt="photo ">
+                {% endif %}
+                <a class="btn btn-success pull-right" href="{% url 'reviews-ticket' post.id %}">Creer une review</a>
 
-                <p>Titre : {{ post.title }}</p>
-                <img src="{{ post.image.url }}" alt="photo ">
+                {% if post.user == request.user %}
 
-            {% endif %}
 
-        </div>
-        {% if post.user == request.user %}
-        <a href="{% url 'update_review' post.id %}">[modifier]</a>
-        <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
-        {% else %}
+                    <a class="btn btn-primary " href="{% url 'update_review' post.id %}"> modifier </a>
+                    <a class="btn btn-danger " href="{% url 'delete_posts' post.id %}">Supprimer</a>
+                {% else %}
+                {% endif %}
+            </div>
         {% endif %}
-
-        <div style="border: solid 2px black"></div>
     {% endfor %}
-
-
 
 {% endblock %}
 

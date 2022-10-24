@@ -3,8 +3,17 @@
 {% block content %}
 
     <h1>Yours Posts</h1>
-    <div>
-        <a href="{% url 'create-ticket' %}">[cree un post]</a>
+    <div class="container">
+        <div class="row justify-content-evenly p-5 ">
+
+            <div class="col-2 ">
+                <a class="btn btn-primary" href="{% url 'create-ticket' %}">Créer ton ticket</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-md border border-primary">
+
         {% for post in posts %}
             {% for review in post.reviews.all %}
                 {% if user.request == review.user %}
@@ -29,11 +38,11 @@
                     <span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
                 {% else %}
-                    <p>il as eut un 0</p>
+                    <p>il as eu un 0</p>
                 {% endif %}
                 <div>{{ review.body }}</div>
-            {% endfor %}
 
+            {% endfor %}
 
             <div style="border: solid;width: auto; height: auto; padding: 30px;margin: 30px">
                 <div> publié : {{ post.time_created }}</div>
@@ -47,15 +56,18 @@
                 {% endif %}
 
             </div>
-            {% if post.user == request.user %}
-                <a href="{% url 'ticket_only' post.id %}">[modifier le ticket]</a>
-                <a href="{% url 'delete_posts' post.id %}">[Supprimer]</a>
+            {% if post.reviews.user == request.user %}
+                {{ post.reviews.all }}
+            {% elif post.reviews.all %}
+                <a class="btn btn-success pull-right" href="{% url 'update_review' post.id %}">Modifier la review</a>
+                <a class="btn btn-danger " href="{% url 'delete_posts' post.id %}">Supprimer</a>
             {% else %}
+                <a href="{% url 'ticket_only' post.id %}">Modifier le ticket</a>
+                <a class="btn btn-danger " href="{% url 'delete_posts' post.id %}">Supprimer</a>
 
             {% endif %}
-            <div style="border: solid 2px black"></div>
+            <div class='border border-3 border-primary' style="margin: 10px 2px 10px 2px"></div>
         {% endfor %}
-
     </div>
 
 

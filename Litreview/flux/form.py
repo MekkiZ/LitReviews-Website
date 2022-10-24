@@ -3,6 +3,16 @@ from . import models
 
 
 class TicketForm(forms.ModelForm):
+    title = forms.CharField(label='Titre', max_length=30,
+                            widget=forms.TextInput(attrs={'class': "form-control"}))
+
+    description = forms.CharField(label='Description', max_length=30,
+                                  widget=forms.Textarea(attrs={'class': "form-control",
+                                                               'id': 'exampleFormControlTextarea1',
+                                                               'rows': '3'}))
+
+    image = forms.FileField(label='', widget=forms.FileInput(attrs={'class': "custom-file-input"}))
+
     class Meta:
         model = models.Ticket
         fields = ('title', 'description', 'image')
@@ -14,6 +24,13 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+    headline = forms.CharField(label='Titre', max_length=30,
+                            widget=forms.TextInput(attrs={'class': "form-control"}))
+
+    body = forms.CharField(label='Description', max_length=30,
+                                  widget=forms.Textarea(attrs={'class': "form-control",
+                                                               'id': 'exampleFormControlTextarea1',
+                                                               'rows': '3'}))
     CHOICES = [('0', '- 0'),
                ('1', '- 1'),
                ('2', '- 2'),
@@ -37,7 +54,6 @@ class ReviewForm(forms.ModelForm):
 
 
 class FollowForm(forms.ModelForm):
-
     class Meta:
         model = models.UserFollows
         fields = ('followed_user',)

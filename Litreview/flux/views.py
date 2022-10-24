@@ -2,18 +2,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from flux.form import TicketForm, ReviewForm, FollowForm
 from flux.models import Ticket, Review, UserFollows
-from django.db.models import Q, Value
+from django.db.models import Q, Value, CharField
 from django.contrib.auth.models import User
+from itertools import chain
 
 
 @login_required()
 def flux(request):
-    # posts = Ticket.objects.all()
+    ticketes = Ticket.objects.all()
+    reviewss = Review.objects.all()
 
-    posts = Ticket.objects.filter(Q(user__id__in=request.user.following.all().values_list('followed_user_id')) |
-                                  Q(user_id=request.user.id)).order_by('-time_created')
-    print(posts)
-    return render(request, 'flux/flux.html', context={'posts': posts})
+    reviews = Review.objects.filter(Q(user__id__in=request.user.following.all().values_list('followed_user_id')) |
+                                    Q(user_id=request.user.id))
+    reviews = reviews.annotate(content_type=Value("REVIEW", CharField()))
+
+    tickets = Ticket.objects.filter(Q(user__id__in=request.user.following.all().values_list('followed_user_id')) |
+                                    Q(user_id=request.user.id))
+    tickets = tickets.annotate(content_type=Value("TICKET", CharField()))
+
+    posts = sorted(
+        chain(reviews, tickets),
+        key=lambda post: post.time_created,
+        reverse=True
+    )
+    return render(request, 'flux/flux.html', context={'posts': posts, 'tickette' : ticketes, 'reviewss': reviewss})
 
 
 @login_required()
@@ -32,10 +44,13 @@ def create_ticket(request):
 
 @login_required()
 def posts(request):
-    if request.user.is_authenticated:
-        posts = Ticket.objects.filter(user=request.user)
-        return render(request, 'flux/posts.html',
-                      {'posts': posts})
+
+        posts = Ticket.objects.filter(user=request.user).order_by('-time_created')
+        for row in Review.objects.all().reverse():
+            if Review.objects.filter(ticket_id=row.ticket_id).count() > 1:
+                row.delete()
+
+        return render(request, 'flux/posts.html', {'posts': posts})
 
 
 @login_required()

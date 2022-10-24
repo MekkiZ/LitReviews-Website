@@ -7,24 +7,35 @@
             {% csrf_token %}
             <input class="form-control me-2"
                    type="search" placeholder="rechercher" name="search">
-            <button class="btn btn-outline-sucess" type="submit">rechercher</button>
+            <button class="btn btn-outline-sucess" type="submit">Follow</button>
 
         </form>
 
-        <p>following : </p>{% for follows in following %}
-        {{ follows.followed_user }}
-        <button><a href="{% url 'delete-user' follows.id %}">[Supprimer]</a></button>
-        <br>
-    {% endfor %}
-        <br>
-        <p>followers : </p>
-        {% for follower in followers %}
-            {{ follower.user }}<br>
+        <p>following :</p>
+        {% for follows in following %}
+            <div class="p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end">
+                {{ follows.followed_user }}
+               <a class="btn btn-danger pull-right" href="{% url 'delete-user' follows.id %}" style="margin: -6px">Unfollow</a>
+
+            </div>
+
+
+            <br>
+        {% endfor %}
+
+
+<div class="card" style="width: 50rem;">
+  <div class="card-body">
+    <h5 class="card-title">followers :</h5>
+   {% for follower in followers %}
+       <p class="card-text">{{ follower.user }}</p>
             {% if request.user %}
             {% else %}
 
             {% endif %}
         {% endfor %}
+  </div>
+</div>
 
     </div>
 {% endblock %}
