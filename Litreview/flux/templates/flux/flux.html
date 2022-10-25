@@ -77,7 +77,22 @@
                     <p>Titre : {{ post.title }}</p>
                     <img src="{{ post.image.url }}" alt="photo ">
                 {% endif %}
-                <a class="btn btn-success pull-right" href="{% url 'reviews-ticket' post.id %}">Creer une review</a>
+
+                {% for rev in reviewss %}
+
+
+
+                    {% if  rev.ticket_id == post.id %}
+
+                    {% else %}
+
+                        <a class="btn btn-success pull-right" href="{% url 'reviews-ticket' post.id %}">Creer une
+                            review</a>
+
+                    {% endif %}
+                {% endfor %}
+
+
 
                 {% if post.user == request.user %}
 

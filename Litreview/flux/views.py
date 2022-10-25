@@ -9,7 +9,7 @@ from itertools import chain
 
 @login_required()
 def flux(request):
-    ticketes = Ticket.objects.all()
+
     reviewss = Review.objects.all()
 
     reviews = Review.objects.filter(Q(user__id__in=request.user.following.all().values_list('followed_user_id')) |
@@ -25,7 +25,7 @@ def flux(request):
         key=lambda post: post.time_created,
         reverse=True
     )
-    return render(request, 'flux/flux.html', context={'posts': posts, 'tickette' : ticketes, 'reviewss': reviewss})
+    return render(request, 'flux/flux.html', context={'posts': posts, 'reviewss': reviewss})
 
 
 @login_required()
