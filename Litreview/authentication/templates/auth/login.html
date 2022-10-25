@@ -1,21 +1,22 @@
 {% extends 'auth/base.html' %}
-{% block content %}
 {% load static %}
+{% block content %}
+
 
 
 <div id="titre_sign">
     <div>
-        <h2>
+        <h2 style="margin-bottom: 60px">
             Inscriver-vous maintenant
         </h2>
-        <a id="a_b" href="{% url 'signup'  %}">S'inscrire</a>
+        <a style="margin: 600px 150px;" id="a_b" href="{% url 'signup'  %}">S'inscrire</a>
     </div>
 
     <div class="form_login">
-        <h2>
+        <h2 style="margin-bottom: 60px;">
             Connectez vous :
         </h2>
-        <form action="" method="post" novalidate>
+        <form style="margin-left: 45px;" action="" method="post" novalidate>
             <div>
                 <a class="content_input">{{form.as_p}}</a>
             </div>
@@ -24,7 +25,7 @@
                 <a class="content_input"> {% csrf_token %}</a>
             </div>
 
-            <button type="submit">Connexion</button>
+            <button style="margin-left: 100px" class="btn btn-outline-primary" type="submit">Connexion</button>
         </form>
     </div>
 

@@ -3,27 +3,27 @@
 {% block content %}
 
     <h1>Supprimer le groupe</h1>
+ <div class="container-md border border-primary" style="sdisplay:flex; flex-direction: column; align-items: center">
+    <p class="text-center">Etes-vous sûr de vouloir supprimer le post ?</p>
 
-    <p>Etes-vous sûr de vouloir supprimer le post ?</p>
-
-    <p> titre : {{ ticket.title }} </p>
-    <p> description : {{ ticket.description }} </p>
+    <p class="text-center" > titre : {{ ticket.title }} </p>
+    <p class="text-center" > description : {{ ticket.description }} </p>
 
     {% if ticket.image %}
-        <img src="{{ ticket.image.url }}" alt="photo ">
+        <img  class="rounded mx-auto d-block"  src="{{ ticket.image.url }}" alt="photo ">
 
     {% else %}
-        <p>juhfrjbnjsdgbnsdg</p>
+
 
     {% endif %}
 
 
-    <p> Posté par : {{ ticket.user }} </p>
-    <p> le : {{ ticket.time_created }} </p>
+    <p class="text-center" > Posté par : {{ ticket.user }} </p>
+    <p class="text-center" > le : {{ ticket.time_created }} </p>
 
     <form action="" method="post">
         {% csrf_token %}
-        <input type="submit" value="Supprimer">
+        <input class="rounded mx-auto d-block btn btn-danger"  type="submit" value="Supprimer">
     </form>
-
+ </div>
 {% endblock %}

@@ -3,21 +3,34 @@
 {% block content %}
 
 
-    <h1>Mise à jour du ticket</h1>
-
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {% if post.image %}
-
-
-            <img src="{{ ticket.image.url }}" alt="photo ">
+    <h1>Mise à jour</h1>
+    <div class="container-md border border-primary">
+        {% if request.user %}
+            <p> Vous êtes en train de poster en réponse à</p>
+        {% else %}
 
         {% endif %}
+        <div class="container-md border border-primary"
+             style="border: solid;width: auto; height: auto; padding: 30px;margin:30px 300px 30px 300px">
+            <form action="" method="post" enctype="multipart/form-data">
+                <p> titre : {{ ticket.title }} </p>
+                <p> description : {{ ticket.description }} </p>
+
+                {% if ticket.image %}
+                    <img src="{{ ticket.image.url }}" alt="photo ">
+
+                {% else %}
+                {% endif %}
+
+
+                <p> Posté par : {{ ticket.user }} </p>
+                <p> le : {{ ticket.time_created }} </p>
+        </div>
 
         {{ form_review.as_p }}
-        <input type="submit" value="Envoyer">
-    </form>
-
+        {% csrf_token %}
+        <input class="btn btn-primary" type="submit" value="Envoyer">
+        </form>
+    </div>
 
 {% endblock %}

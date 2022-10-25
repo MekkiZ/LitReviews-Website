@@ -82,7 +82,7 @@
                 {% if post.user == request.user %}
 
 
-                    <a class="btn btn-primary " href="{% url 'update_review' post.id %}"> modifier </a>
+                    <a class="btn btn-primary " href="{% url 'ticket_only' post.id %}"> modifier </a>
                     <a class="btn btn-danger " href="{% url 'delete_posts' post.id %}">Supprimer</a>
                 {% else %}
                 {% endif %}

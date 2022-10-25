@@ -58,21 +58,16 @@ def update_review(request, p_id):
     ticket = Ticket.objects.get(id=p_id)
     review = Review.objects.get(ticket_id=p_id)
     if request.method == 'POST':
-        form = TicketForm(request.POST, request.FILES, instance=ticket)
         form_review = ReviewForm(request.POST, request.FILES, instance=review)
-        if form.is_valid() and form_review.is_valid():
-            photo = form.save(commit=False)
-            photo.user = request.user
-            photo.save()
-            form.save()
+        if form_review.is_valid():
             form_review.save()
             return redirect('posts')
     else:
-        form = TicketForm(instance=ticket)
+
         form_review = ReviewForm(instance=review)
     return render(request, 'flux/ticket_update.html',
-                  context={'form': form, 'form_review': form_review,
-                           'review': review})
+                  context={'form_review': form_review,
+                           'review': review,'ticket': ticket})
 
 
 @login_required()
@@ -88,7 +83,7 @@ def ticket_only(request, p_id):
             return redirect('posts')
     else:
         forms = TicketForm(instance=tickets)
-    return render(request, 'flux/ticket_update.html', context={'form': forms, 'tickets': tickets})
+    return render(request, 'flux/modify_ticket.html', context={'form': forms, 'tickets': tickets})
 
 
 @login_required()

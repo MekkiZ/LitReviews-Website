@@ -1,0 +1,22 @@
+{% extends 'flux/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <h1>Mise à jour</h1>
+<div class="container-md border border-primary" >
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if tickets.image %}
+
+            <img  src="{{ tickets.image.url }}" alt="photo ">
+
+        {% endif %}
+
+        {{ form_review.as_p }}
+        <input class="btn btn-primary pull-right" style="margin: 95px 10px 10px " type="submit" value="Envoyer">
+    </form>
+</div>
+
+{% endblock %}

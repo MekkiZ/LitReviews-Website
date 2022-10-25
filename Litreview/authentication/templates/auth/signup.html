@@ -2,13 +2,19 @@
 {% block content %}
 {% load static %}
 
-<h1 id = 'titre_ins'> Inscrivez-vous </h1>
-<div class="content_form">
+<h1 style="margin: 30px 620px"> Inscrivez-vous </h1>
+<div class="content_form" style="margin-top:60px; margin-left: 650px" >
     <form action="" method="post" novalidate>
         {{form.as_p}}
         {% csrf_token %}
-        <button id='inscrire' type="submit">s'inscrire</button>
+        <button class="btn btn-outline-primary" type="submit">s'inscrire</button>
     </form>
 </div>
-<a id="content_back" href="{% url 'login' %}">Retourner</a>
+  <div class="container" style="margin: -102px -100px -50px 200px ">
+        <div class="row justify-content-evenly p-5 ">
+            <div class="col-2">
+                <a class="btn btn-outline-primary" href="{% url 'login' %}">Retourner</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
