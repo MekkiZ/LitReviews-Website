@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 Run this command :
 ```
-cd LiTReview
+cd Litreview
 ```
 And  :
 ```
