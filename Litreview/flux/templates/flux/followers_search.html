@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <div class="container">
-        <h1>Suivre d'autre utilisateur</h1>
+        <h1>Suivre d'autres utilisateurs</h1>
         <form class="d-flex" method="post" action="{% url 'search' %}" name="ows">
             {% csrf_token %}
             <input class="form-control me-2"
