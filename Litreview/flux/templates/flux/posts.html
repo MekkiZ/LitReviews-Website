@@ -62,7 +62,7 @@
                 <a class="btn btn-success pull-right" href="{% url 'update_review' post.id %}">Modifier la review</a>
                 <a class="btn btn-danger " href="{% url 'delete_posts' post.id %}">Supprimer</a>
             {% else %}
-                <a href="{% url 'ticket_only' post.id %}">Modifier le ticket</a>
+                <a class="btn btn-success pull-right" href="{% url 'ticket_only' post.id %}">Modifier le ticket</a>
                 <a class="btn btn-danger " href="{% url 'delete_posts' post.id %}">Supprimer</a>
 
             {% endif %}

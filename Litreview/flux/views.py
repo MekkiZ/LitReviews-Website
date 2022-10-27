@@ -9,6 +9,7 @@ from itertools import chain
 
 @login_required()
 def flux(request):
+    """This function has to purpose to show with filter all query results (ticket and reviews)"""
 
     reviewss = Review.objects.all()
 
@@ -30,6 +31,8 @@ def flux(request):
 
 @login_required()
 def create_ticket(request):
+    """This function has to purpose to create a new ticket with login required"""
+
     form = TicketForm()
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
@@ -44,17 +47,23 @@ def create_ticket(request):
 
 @login_required()
 def posts(request):
+    """This function has to purpose to show to current user all posts"""
 
-        posts = Ticket.objects.filter(user=request.user).order_by('-time_created')
-        for row in Review.objects.all().reverse():
-            if Review.objects.filter(ticket_id=row.ticket_id).count() > 1:
-                row.delete()
+    posts = Ticket.objects.filter(user=request.user).order_by('-time_created')
+    for row in Review.objects.all().reverse():
+        if Review.objects.filter(ticket_id=row.ticket_id).count() > 1:
+            row.delete()
 
-        return render(request, 'flux/posts.html', {'posts': posts})
+    return render(request, 'flux/posts.html', {'posts': posts})
 
 
 @login_required()
 def update_review(request, p_id):
+    """
+    function serve to update a review only for the current user's reviews
+
+    :param : p_id : the id of review
+    """
     ticket = Ticket.objects.get(id=p_id)
     review = Review.objects.get(ticket_id=p_id)
     if request.method == 'POST':
@@ -67,11 +76,16 @@ def update_review(request, p_id):
         form_review = ReviewForm(instance=review)
     return render(request, 'flux/ticket_update.html',
                   context={'form_review': form_review,
-                           'review': review,'ticket': ticket})
+                           'review': review, 'ticket': ticket})
 
 
 @login_required()
 def ticket_only(request, p_id):
+    """
+    function serve to update a ticket only for the current user's ticket
+
+    :param: p_id : the id of ticket only
+    """
     tickets = Ticket.objects.get(id=p_id)
     if request.method == 'POST':
         forms = TicketForm(request.POST, request.FILES, instance=tickets)
@@ -88,6 +102,7 @@ def ticket_only(request, p_id):
 
 @login_required()
 def create_critic_no_answer(request):
+    """this function has to purpose to create a review without ticket"""
     form = TicketForm()
     form_rating = ReviewForm()
     if request.method == 'POST':
@@ -109,6 +124,13 @@ def create_critic_no_answer(request):
 
 @login_required()
 def delete_posts(request, p_id):
+    """
+    This function delete current user's ticket and reviews because
+    the review has to be if ticket his ticket is available
+
+    :param : p_id : the id of the ticket
+    """
+
     ticket = Ticket.objects.get(id=p_id)
     if request.method == 'POST':
         ticket.delete()
@@ -116,7 +138,14 @@ def delete_posts(request, p_id):
     return render(request, 'flux/posts_delete.html', context={'ticket': ticket})
 
 
+@login_required()
 def create_review_for_post(request, p_id):
+    """
+    With  this function create a review for ticket
+    :param : p_id : the id of the post
+
+    """
+
     ticket = Ticket.objects.get(id=p_id)
     review = ReviewForm()
     if request.method == 'POST':
@@ -136,6 +165,8 @@ def create_review_for_post(request, p_id):
 
 @login_required()
 def follow_user(request):
+    """With this function follow a user"""
+
     form = FollowForm(instance=request.user)
     if request.method == 'POST':
         if request.POST.get('search'):
@@ -153,6 +184,11 @@ def follow_user(request):
 
 @login_required
 def delete_user_follow(request, follow_id):
+    """
+    With this function delete a user followed by a user
+    :param: follow_id: the id of the user followed by
+    """
+
     user_follows = get_object_or_404(UserFollows, pk=follow_id)
     user_follows.delete()
     return redirect('search')

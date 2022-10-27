@@ -19,7 +19,6 @@ And  :
 ```
 python3 manage.py runserver 8080
 ```
-Put the url: https://books.toscrape.com/index.html \
 
 You will have :
 ```
@@ -31,6 +30,6 @@ Quit the server with CONTROL-C.
 
 ```
 Copy this link on your favorite browser :
-http://127.0.0.1:8080/login/
+http://127.0.0.1:8080/
 
 After enjoy

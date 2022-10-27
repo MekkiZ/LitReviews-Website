@@ -3,6 +3,8 @@ from . import models
 
 
 class TicketForm(forms.ModelForm):
+    """Form to create a new ticket."""
+
     title = forms.CharField(label='Titre', max_length=30,
                             widget=forms.TextInput(attrs={'class': "form-control"}))
 
@@ -11,8 +13,7 @@ class TicketForm(forms.ModelForm):
                                                                'id': 'exampleFormControlTextarea1',
                                                                'rows': '3'}))
 
-    image = forms.FileField(label='', widget=forms.FileInput(attrs={'class': "custom-file-input"}))
-
+    image = forms.FileField(label='', widget=forms.FileInput(attrs={'class': "custom-file-input", }), required=False)
     class Meta:
         model = models.Ticket
         fields = ('title', 'description', 'image')
@@ -24,13 +25,14 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+    """Form to create a Review."""
     headline = forms.CharField(label='Titre', max_length=30,
-                            widget=forms.TextInput(attrs={'class': "form-control"}))
+                               widget=forms.TextInput(attrs={'class': "form-control"}))
 
     body = forms.CharField(label='Description', max_length=30,
-                                  widget=forms.Textarea(attrs={'class': "form-control",
-                                                               'id': 'exampleFormControlTextarea1',
-                                                               'rows': '3'}))
+                           widget=forms.Textarea(attrs={'class': "form-control",
+                                                        'id': 'exampleFormControlTextarea1',
+                                                        'rows': '3'}))
     CHOICES = [('0', '- 0'),
                ('1', '- 1'),
                ('2', '- 2'),

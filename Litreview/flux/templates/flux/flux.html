@@ -52,6 +52,11 @@
                             <img src="{{ post.ticket.image.url }}" alt="photo ">
 
                         {% endif %}
+                      {% if not post.ticket.reviews.all %}
+                        <a class="btn btn-success pull-right" href="{% url 'reviews-ticket' post.id %}">Creer une
+                            review</a>
+                    {% endif %}
+
 
                     </div>
                     <div class="ms-auto">
@@ -69,6 +74,7 @@
 
 
         {% elif post.content_type == 'TICKET' %}
+
             <div style="border: solid;width: auto; height: auto; padding: 70px;margin:0 300px 30px 300px">
                 <div> publié : {{ post.time_created }}</div>
                 <div>{{ post.user }} a publier</div>
@@ -76,26 +82,23 @@
                 {% if post.image %}
                     <p>Titre : {{ post.title }}</p>
                     <img src="{{ post.image.url }}" alt="photo ">
+
                 {% endif %}
 
-                {% for rev in reviewss %}
 
 
-
-                    {% if  rev.ticket_id == post.id %}
-
-                    {% else %}
-
+                    {% if not post.reviews.all %}
                         <a class="btn btn-success pull-right" href="{% url 'reviews-ticket' post.id %}">Creer une
                             review</a>
 
                     {% endif %}
-                {% endfor %}
+
+
+
 
 
 
                 {% if post.user == request.user %}
-
 
                     <a class="btn btn-primary " href="{% url 'ticket_only' post.id %}"> modifier </a>
                     <a class="btn btn-danger " href="{% url 'delete_posts' post.id %}">Supprimer</a>
@@ -106,4 +109,3 @@
     {% endfor %}
 
 {% endblock %}
-
