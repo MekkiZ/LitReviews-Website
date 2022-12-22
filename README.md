@@ -1,7 +1,8 @@
 # LiTReview
 
 ## Description
-This a website to market a product allowing a community of users to consult or request book reviews on demand.
+This a website ( On Django ) to market a product allowing a community of users to consult or request book reviews on demand.
+
 ## Setup
 Create a virtualenv for the project with Python 3.10
 ```
